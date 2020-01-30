@@ -61,7 +61,7 @@ commands:
             exit 1
           fi
           tar -xf go-ipfs_v0.4.22_linux-amd64.tar.gz
-          sudo mv go-ipfs/ipfs /usr/local/bin/ipfs
+          mv go-ipfs/ipfs /usr/local/bin/ipfs
           chmod +x /usr/local/bin/ipfs
 
 jobs:
@@ -280,9 +280,12 @@ jobs:
     description: publish binary artifacts
     executor: alpine
     steps:
+      - checkout
       - install_ipfs
       - attach_workspace:
           at: "."
+      - run:
+          command: cd project
       - run:
           name: Create bundles
           command: ./scripts/build-bundle.sh
@@ -304,21 +307,25 @@ workflows:
       - mod-tidy-check
       - build-all:
           requires:
-            - test
+            - test-short
       - build-macos:
           requires:
-            - test
+            - test-short
           filters:
-            branches:
-              ignore: /.*/
+            #branches:
+            #  ignore:
+            #    - /.*/
             tags:
-              only: /^test-only-v\d+\.\d+\.\d+/
+              only:
+                - /^test-only-.*/
       - publish:
           requires:
             - build-all
             - build-macos
           filters:
-            branches:
-              ignore: /.*/
+            #branches:
+            #  ignore:
+            #    - /.*/
             tags:
-              only: /^test-only-v\d+\.\d+\.\d+/
+              only:
+                - /^test-only-.*/
