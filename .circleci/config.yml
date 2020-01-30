@@ -312,7 +312,7 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^test-only-v\d+\.\d+\.\d+$/
+              only: /^test-only-v\d+\.\d+\.\d+/
       - publish:
           requires:
             - build-all
@@ -321,4 +321,4 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^test-only-v\d+\.\d+\.\d+$/
+              only: /^test-only-v\d+\.\d+\.\d+/
