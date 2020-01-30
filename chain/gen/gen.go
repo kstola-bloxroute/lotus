@@ -6,9 +6,11 @@ import (
 	"crypto/sha256"
 	"encoding/binary"
 	"fmt"
-	"github.com/filecoin-project/lotus/chain/vm"
 	"io/ioutil"
 	"sync/atomic"
+
+	"github.com/filecoin-project/lotus/chain/vm"
+	"github.com/filecoin-project/lotus/lib/sigs"
 
 	ffi "github.com/filecoin-project/filecoin-ffi"
 
@@ -611,7 +613,7 @@ func VerifyVRF(ctx context.Context, worker, miner address.Address, p uint64, inp
 		Data: vrfproof,
 	}
 
-	if err := sig.Verify(worker, vrfBase); err != nil {
+	if err := sigs.Verify(sig, worker, vrfBase); err != nil {
 		return xerrors.Errorf("vrf was invalid: %w", err)
 	}
 
