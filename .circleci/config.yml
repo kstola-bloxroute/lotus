@@ -309,16 +309,20 @@ workflows:
           requires:
             - test
           filters:
-            branches:
-              ignore: /.*/
+            #branches:
+            #  ignore:
+            #    - /.*/
             tags:
-              only: /^test-only-v\d+\.\d+\.\d+/
+              only:
+                - /^test-only-.*/
       - publish:
           requires:
             - build-all
             - build-macos
           filters:
-            branches:
-              ignore: /.*/
+            #branches:
+            #  ignore:
+            #    - /.*/
             tags:
-              only: /^test-only-v\d+\.\d+\.\d+/
+              only:
+                - /^test-only-.*/
